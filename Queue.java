@@ -5,32 +5,38 @@
 
 public class Queue<T> {
 
+	//Array of type T, can be used for any object
 	public T[] array;
 	
 	private int backIndex = 0;
 	private int frontIndex = 0;
 	private static int DEFAULT_ARRAY_LENGTH = 50;
 	
+	//Check if array is empty
 	public boolean isEmpty() {
 		return frontIndex == (backIndex + 1) % array.length;
 	}
 	
+	
+	//Check if array is full
 	public boolean isFull() {
 		return frontIndex == (backIndex + 2) % array.length;
 	}
 	
+	//Create array of requested size
 	public Queue(int arrayCapacity) {
 		array = (T[]) new Object[arrayCapacity + 1];
 		frontIndex = 0;
 		backIndex = arrayCapacity;
 	}
 	
+	//Create queue of default length 50
 	public Queue() {
 		this(DEFAULT_ARRAY_LENGTH);
 	}
 	
 	
-	
+	//Not enough space? Make some more!
 	private void DoubleSpace() {
 		T[] oldQueue = array;
 		array = (T[]) new Object[oldQueue.length * 2];
@@ -42,6 +48,7 @@ public class Queue<T> {
 		
 	}
 	
+	//Add object T to Queue
 	public void Add(T data) {
 		if(isFull()) {
 			DoubleSpace();
@@ -50,6 +57,7 @@ public class Queue<T> {
 		array[backIndex] = data;
 	}
 	
+	//Remove from front of Queue
 	public T Remove() {
 		T data = null;
 		if(!isEmpty()) {
@@ -60,6 +68,7 @@ public class Queue<T> {
 		return data;
 	}
 	
+	//Getter code
 	public int getQueueSize() {
 		
 		int count = (frontIndex + backIndex) % array.length;
