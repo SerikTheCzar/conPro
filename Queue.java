@@ -1,4 +1,4 @@
-public class Queue(int size) {
+public class Queue {
 	private int [] queue;
 	private int pIn, pOut, occupied, queueSize;
 	public Queue(int size){
