@@ -1,3 +1,8 @@
+/*
+/ Queue Datastructure
+/ By: Serik Czarnecki
+*/
+
 public class Queue {
 	private int [] queue;
 	private int pIn, pOut, occupied, queueSize;
