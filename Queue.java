@@ -3,43 +3,78 @@
 / By: Serik Czarnecki
 */
 
-public class Queue {
-	private int [] queue;
-	private int pIn, pOut, occupied, queueSize;
-	public Queue(int size){
-		queue = new int[size];
-		occupied = 0; //num of occupied queues
-		pIn = 0;
-		pOut = 0;
-		queueSize = size;
-	}
-	public boolean empty() {
-		return occupied==0;
-	}
-	public boolean full() {
-		return !empty();
-	}
-	public synchronized void input (int a) {
-		try{
-			while(full()) wait();
-			queue[pIn] = a;
-			pIn = (pIn+1)%queueSize;
-			occupied++;
+public class Queue<T> {
 
-			notifyAll();
-		}
-		catch(InterruptedException e){}
+	public T[] array;
+	
+	private int backIndex = 0;
+	private int frontIndex = 0;
+	private static int DEFAULT_ARRAY_LENGTH = 50;
+	
+	public boolean isEmpty() {
+		return frontIndex == (backIndex + 1) % array.length;
 	}
-	public synchronized int get() {
-		int a = 0;
-		try {
-			while (empty()) wait();
-			a = queue[pOut];
-			pOut = (pOut+1)%queueSize;
-			occupied--;
-			notifyAll();
-		}
-		catch(InterruptedException e){ }
-		return a;
+	
+	public boolean isFull() {
+		return frontIndex == (backIndex + 2) % array.length;
 	}
+	
+	public Queue(int arrayCapacity) {
+		array = (T[]) new Object[arrayCapacity + 1];
+		frontIndex = 0;
+		backIndex = arrayCapacity;
+	}
+	
+	public Queue() {
+		this(DEFAULT_ARRAY_LENGTH);
+	}
+	
+	
+	
+	private void DoubleSpace() {
+		T[] oldQueue = array;
+		array = (T[]) new Object[oldQueue.length * 2];
+		for(int i = 0; i < oldQueue.length; i++) {
+			array[i] = oldQueue[i];
+		}
+		frontIndex = 0;
+		backIndex = array.length - 1;
+		
+	}
+	
+	public void Add(T data) {
+		if(isFull()) {
+			DoubleSpace();
+		}
+		backIndex = (backIndex + 1) % array.length;
+		array[backIndex] = data;
+	}
+	
+	public T Remove() {
+		T data = null;
+		if(!isEmpty()) {
+			data = array[frontIndex];
+			frontIndex = (frontIndex + 1) % array.length;
+		}
+		
+		return data;
+	}
+	
+	public int getQueueSize() {
+		
+		int count = (frontIndex + backIndex) % array.length;
+		
+		return count;
+	}
+	
+	public T Get() {
+		T data = null;
+		
+		if(!isEmpty()) {
+			data = array[frontIndex];
+		}
+		
+		return data;
+	}
+	
 }
