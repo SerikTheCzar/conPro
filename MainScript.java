@@ -7,7 +7,7 @@ import java.util.Random;
 public class MainScript {
 
 	// Initialize Instruction Queue
-	public Queue<Instruction> instructionQueue = new Queue<Instruction>(10);
+	public Queue<InstructionScript> instructionQueue = new Queue<InstructionScript>(10);
 	
 	// Created pseudo instructions, loosely based after Brainfuck language
 	public String[] instructions = {"<<", ">>", "++", "--", "/", "*"};
@@ -24,13 +24,13 @@ public class MainScript {
 			//Halting condition
 			if(stopInstructions == false && !instructionQueue.isFull()) {
 				String testInst = instructions[rng.nextInt(instructions.length)];
-				instructionQueue.Add(new Instruction(testInst, rng.nextInt(8)));
+				instructionQueue.Add(new InstructionScript(testInst, rng.nextInt(8)));
 			} else if(instructionQueue.isFull()) {
 				stopInstructions = true;
 			}
 			
 			//Get the current instruction, and cycle it
-			Instruction p = instructionQueue.Get();
+			InstructionScript p = instructionQueue.Get();
 			System.out.println(p.toString());
 			p.Cycle();
 			
