@@ -7,7 +7,7 @@ import java.util.Random;
 public class MainScript {
 
 	// Initialize Instruction Queue
-	public Queue<InstructionScript> instructionQueue = new Queue<InstructionScript>(10);
+	public Queue<Instruction> instructionQueue = new Queue<Instruction>(10);
 	
 	// Created pseudo instructions, loosely based after Brainfuck language
 	public String[] instructions = {"<<", ">>", "++", "--", "/", "*"};
@@ -30,7 +30,7 @@ public class MainScript {
 			}
 			
 			//Get the current instruction, and cycle it
-			InstructionScript p = instructionQueue.Get();
+			Instruction p = instructionQueue.Get();
 			System.out.println(p.toString());
 			p.Cycle();
 			
